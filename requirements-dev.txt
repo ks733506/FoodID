@@ -1,7 +1,15 @@
 # Development and tooling dependencies
-black==23.9.1
-isort==5.12.0
-flake8==6.1.0
-mypy==1.5.1
-pre-commit==3.4.0
-types-requests
+# ------------------------------------
+# These tools are used for code quality, style enforcement, and developer workflow.
+# Install with: pip install -r requirements-dev.txt
+
+black==23.9.1           # Opinionated code formatter (PEP 8 compliant)
+isort==5.12.0           # Sorts and organizes imports automatically
+flake8==6.1.0           # Linter for style issues and potential bugs
+mypy==1.5.1             # Static type checker for Python
+pre-commit==3.4.0       # Git hook manager to enforce checks before commits
+types-requests==2.32.0.20241016  # Type stubs for requests, used by mypy
+
+# Optional extras (uncomment if needed):
+# pytest-cov==4.1.0     # Coverage reporting for pytest
+# coverage==7.3.0       # Standalone coverage analysis tool

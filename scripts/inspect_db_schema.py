@@ -1,3 +1,5 @@
+"""Quick inspection of DB schema, sample rows, and insert behavior for debugging."""
+
 from db import get_conn, init_db
 import pprint
 

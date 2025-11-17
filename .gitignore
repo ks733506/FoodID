@@ -1,58 +1,78 @@
 # ==================================================
-# Basic ignores for Python projects
+# Environment / configuration
 # ==================================================
-# Environment files (credentials, local overrides)
 .env
 .env.*
+*.env
 
-# Bytecode cache and Python artifacts
+# ==================================================
+# Python artifacts
+# ==================================================
 __pycache__/
 *.py[cod]
 *.pyo
 
-# SQLite DB files (local development)
+# ==================================================
+# SQLite databases (local development)
+# ==================================================
+*.sqlite
 *.sqlite3
 *.db
 
+# ==================================================
 # Virtual environments
+# ==================================================
 .venv/
 venv/
 
-# pip / build artifacts
+# ==================================================
+# Build / packaging
+# ==================================================
 pip-wheel-metadata/
 *.egg-info/
 dist/
 build/
 
 # ==================================================
-# Editor/IDE
+# Editor / IDE
 # ==================================================
 .vscode/
 .idea/
 
-# macOS / Windows
+# ==================================================
+# OS-specific files
+# ==================================================
 .DS_Store
 Thumbs.db
 
-# Testing and tooling
+# ==================================================
+# Testing / tooling caches
+# ==================================================
 .pytest_cache/
 .coverage
 coverage.xml
 .mypy_cache/
 
-# Jupyter
+# ==================================================
+# Jupyter notebooks
+# ==================================================
 .ipynb_checkpoints/
 
+# ==================================================
 # Logs
+# ==================================================
 *.log
 logs/
 
-# Cache and temp
+# ==================================================
+# Cache / temp
+# ==================================================
 .cache/
 tmp/
-__pycache__/
 
-# Optional: ignore Docker local volumes and env files
+# ==================================================
+# Docker overrides
+# ==================================================
 docker-compose.override.yml
 
 # End of ignores
