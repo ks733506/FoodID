@@ -33,7 +33,11 @@ def _handle_response(resp: requests.Response) -> Tuple[int, Any]:
         data = resp.json()
     except ValueError:
         logger.exception("Invalid JSON response from %s", resp.url)
-        data = {"error": "Invalid JSON from server", "status": resp.status_code, "text": resp.text}
+        data = {
+            "error": "Invalid JSON from server",
+            "status": resp.status_code,
+            "text": resp.text,
+        }
     return resp.status_code, data
 
 
@@ -50,7 +54,10 @@ def create(name: str, qty: Any) -> Tuple[int, Dict[str, Any]]:
     try:
         quantity = int(qty) if qty is not None else 0
         if quantity < 0:
-            return 400, {"error": "Quantity must be a non-negative integer.", "status": 400}
+            return 400, {
+                "error": "Quantity must be a non-negative integer.",
+                "status": 400,
+            }
     except Exception:
         logger.exception("Invalid quantity provided: %r", qty)
         return 400, {"error": "Quantity must be an integer.", "status": 400}
@@ -116,7 +123,10 @@ def update(item_id: Any, name: str, qty: Any) -> Tuple[int, Any]:
         try:
             qval = int(qty)
             if qval < 0:
-                return 400, {"error": "Quantity must be a non-negative integer.", "status": 400}
+                return 400, {
+                    "error": "Quantity must be a non-negative integer.",
+                    "status": 400,
+                }
             payload["quantity"] = qval
         except Exception:
             return 400, {"error": "Quantity must be an integer.", "status": 400}
@@ -135,7 +145,10 @@ def update(item_id: Any, name: str, qty: Any) -> Tuple[int, Any]:
 def delete(item_id: Any, confirm: bool) -> Tuple[int, Any]:
     """Delete an inventory item by ID."""
     if not confirm:
-        return 400, {"error": "Please confirm deletion before proceeding.", "status": 400}
+        return 400, {
+            "error": "Please confirm deletion before proceeding.",
+            "status": 400,
+        }
 
     try:
         iid = int(item_id)

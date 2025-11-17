@@ -29,7 +29,7 @@ def test_db_path(tmp_path, monkeypatch) -> Path:
 
 @pytest.fixture
 def app(test_db_path):
-     # Create the Flask app and initialize a fresh DB for each test session
+    # Create the Flask app and initialize a fresh DB for each test session
     app = create_app()
     app.config["TESTING"] = True
     with app.app_context():
@@ -98,6 +98,7 @@ def test_delete_item(client):
     assert resp.status_code == 200
     resp = client.get(f"/items/{created['id']}")
     assert resp.status_code == 404
+
 
 def test_create_item_missing_name(client):
     resp = client.post("/items", json={"quantity": 3})

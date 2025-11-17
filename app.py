@@ -55,9 +55,14 @@ def create_app() -> Flask:
     @app.get("/")
     def home():
         """Return API welcome message."""
-        return jsonify(
-            {"message": "Welcome to FoodID API. Use /items to interact with inventory."}
-        ), 200
+        return (
+            jsonify(
+                {
+                    "message": "Welcome to FoodID API. Use /items to interact with inventory."
+                }
+            ),
+            200,
+        )
 
     @app.get("/health")
     def health():
@@ -184,9 +189,10 @@ def create_app() -> Flask:
                     return error_response("Item not found.", 404)
 
                 con.execute("DELETE FROM items WHERE id = ?", (item_id,))
-                return jsonify(
-                    {"message": "Item deleted successfully.", "id": item_id}
-                ), 200
+                return (
+                    jsonify({"message": "Item deleted successfully.", "id": item_id}),
+                    200,
+                )
         except Exception:
             logger.exception("Failed to delete item %s", item_id)
             return error_response("Internal server error.", 500)
