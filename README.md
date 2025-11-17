@@ -1,126 +1,198 @@
-gunicorn -w 4 -b 0.0.0.0:8000 app:app
 # FoodID
 
-FoodID is a prototype service that helps identify foods from images and track an accompanying inventory. It pairs a lightweight Flask API with a Gradio-based UI so classmates, instructors, and testers can explore the experience quickly.
+FoodID is a prototype service that identifies foods from images and tracks a simple inventory. It pairs a lightweight Flask API with a Gradio UI so classmates, instructors, and testers can explore the experience quickly.
+
+## Quickstart
+
+Run the API and UI in separate terminals:
+
+```bash
+python app.py   # API server
+python ui.py    # Gradio UI
+```
+
+Open the Gradio link printed by `ui.py`, or access the API directly at:
+[http://127.0.0.1:5000](http://127.0.0.1:5000)
+
+---
 
 ## At a Glance
-- Flask REST API (`app.py`) exposes CRUD endpoints for items plus a health check and identification stub.
-- Gradio front end (`ui.py`) wraps the API in a friendly interface with validation and inline feedback.
-- SQLite persistence (`db.py`, `schema.sql`) with migration helpers that keep legacy databases compatible.
-- Automated quality checks: pytest suite, linting, formatting, and permissive mypy run via GitHub Actions CI.
-- Documentation for rubric mapping, testing evidence, and presentation planning lives under `docs/`.
+
+* **Flask REST API (`app.py`)** — CRUD endpoints for items, plus health check and identification stub.
+* **Gradio UI (`ui.py`)** — Friendly interface with validation and inline feedback.
+* **SQLite persistence** via `db.py` and `schema.sql`, including migration helpers.
+* **CI pipeline** with pytest, linting, formatting, and permissive mypy checks (GitHub Actions).
+* **Documentation** for rubric mapping, testing, and presentation planning in `docs/`.
 
 ## Architecture Overview
+
 ```
 [Gradio UI] --HTTP--> [Flask API] --SQL--> [SQLite Database]
-			 |                                 ^
-			 +---- local validation + feedback  |
-											 schema + migration|
+     |                                 ^
+     +---- local validation + feedback |
+                                      schema + migration
 ```
-- `create_app()` wires up endpoints, runs `init_db()` and `migrate_db()`, and seeds sample data when `SEED_DB=1`.
-- `db.py` resolves the database file path at runtime, performs schema migrations, and exposes helpers used by the API and tests.
-- `ui.py` maintains a shared HTTP session, validates quantities, and surfaces API errors so usability issues are obvious during demos.
+
+* `create_app()` wires endpoints, initializes/migrates DB, and seeds data when `SEED_DB=1`.
+* `db.py` manages DB path, schema creation, migrations, and helper functions used by API + tests.
+* `ui.py` provides client-side validation and shows clear API error messages during demos.
+
+---
 
 ## Local Setup
 
 ### Prerequisites
-- Python 3.10 or newer (3.13.2 used in development)
-- SQLite (included with Python)
 
-### Environment Variables
-Copy `.env.example` to `.env`. Key settings:
-- `DATABASE_PATH` — optional override for the SQLite file (defaults to `foodid.db`).
-- `FLASK_DEBUG` — set to `1` to enable debug mode locally.
-- `SEED_DB` — set to `1` to load the sample items after migrations.
+* Python **3.11+** (tested with 3.13.2)
+* SQLite (bundled with Python)
+
+### Environment Configuration
+
+This project uses environment variables for configuration.  
+Copy `.env.example` to `.env` and adjust values as needed:
+
+```bash
+cp .env.example .env
+```
+Do not commit .env to version control.
+
+Key settings:
+
+FOODID_DB — optional path to SQLite DB (default: foodid.db)
+
+FLASK_DEBUG=1 — enable debug mode
+
+SEED_DB=1 — load sample items after migrations
+
 
 ### Windows PowerShell
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python -c "from db import init_db; init_db()"
-python app.py              # API server
-python ui.py               # UI in a second terminal
+python app.py
+python ui.py
 ```
 
 ### macOS / Linux
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python -c "from db import init_db; init_db()"
-python app.py              # API server
-python ui.py               # UI in a second terminal
+python app.py
+python ui.py
 ```
-
-Point the browser to the Gradio link printed by `ui.py`, or exercise the API directly at `http://127.0.0.1:5000`.
+---
 
 ## Key Endpoints
-- `GET /health` — lightweight health probe; verifies DB connectivity.
-- `GET /items` — list inventory items.
-- `POST /items` — create a new item (`name`, optional `quantity`).
-- `GET /items/<id>` — retrieve a specific item.
-- `PUT /items/<id>` — update fields; rejects negative quantities.
-- `DELETE /items/<id>` — remove an item.
-- `POST /identify` — placeholder that demonstrates the intended image-identification response shape.
 
-See inline docstrings in `app.py` for request/response examples.
+| Method | Path          | Description                                  |
+| ------ | ------------- | -------------------------------------------- |
+| GET    | `/health`     | Health check; verifies DB connectivity       |
+| GET    | `/items`      | List items                                   |
+| POST   | `/items`      | Create an item (`name`, optional `quantity`) |
+| GET    | `/items/<id>` | Retrieve an item                             |
+| PUT    | `/items/<id>` | Update item (rejects negative quantity)      |
+| DELETE | `/items/<id>` | Delete an item                               |
+| POST   | `/identify`   | Placeholder identification endpoint          |
+
+Additional examples are in inline docstrings within `app.py`.
+
+---
 
 ## Design & Accessibility Notes
-- UI keeps the task-focused layout: upload/select image, enter item metadata, and view recent results in a single screen.
-- Form validation mirrors API rules (non-empty names, non-negative quantities) and surfaces clear error messages near inputs.
-- Gradio defaults provide keyboard-accessible controls; descriptive labels and status messages aid screen-reader users.
-- API returns structured JSON errors so alternative clients (e.g., assistive tech, automated scripts) can react programmatically.
 
-Additional narrative and rationale: `docs/presentation_outline.md` (Sections 2–4) and `docs/rubric/requirements_mapping.md`.
+* Task-focused UI with simple, clear tabs.
+* Form validation mirrors API rules: non-empty names, non-negative quantities.
+* Clear error messages near inputs.
+* Gradio defaults provide keyboard-accessible widgets.
+* API returns structured JSON errors for automated or assistive clients.
+
+Additional rationale:
+
+* `docs/presentation_outline.md`
+* `docs/rubric/requirements_mapping.md`
+
+---
 
 ## Data & Migrations
-- `init_db()` creates tables using `schema.sql` when the database file is missing.
-- `migrate_db()` ensures legacy tables gain `created_at` / `updated_at` columns without dropping data.
-- `seed_sample()` populates example rows for demos when `SEED_DB=1`.
-- Use `inspect_db_schema.py` or `debug_inspect_db.py` to review schema state during development.
+
+* `init_db()` creates tables from `schema.sql` if DB does not yet exist.
+* `migrate_db()` adds missing columns to older DB files without dropping data.
+* `seed_sample()` loads sample inventory when `SEED_DB=1`.
+* Development helpers: `inspect_db_schema.py`, `debug_inspect_db.py`.
+
+---
 
 ## Quality & Testing
-- Unit / integration tests live in `test_api.py`. Run them locally:
-	```bash
-	pytest -q
-	```
-- Linting and formatting checks:
-	```bash
-	black --check .
-	isort --check-only .
-	flake8
-	mypy --config-file .flake8 || true  # permissive type checking
-	```
-- GitHub Actions workflow at `.github/workflows/ci.yml` runs the same commands on push/PR.
-- Testing evidence (latest run 2025-11-10) is captured in `docs/TESTING.md` and `docs/testing_results.csv`.
+
+### Tests
+
+```bash
+pytest -q
+```
+
+### Linting / Formatting
+
+```bash
+black --check .
+isort --check-only .
+flake8
+mypy --config-file mypy.ini || true
+```
+
+* GitHub Actions CI (`.github/workflows/ci.yml`) runs these checks on every push/PR.
+* Testing evidence (latest: 2025-11-17) is in `docs/TESTING.md` and `docs/testing_results.csv`.
+
+---
 
 ## Deployment Notes
-- For production, run behind a WSGI server such as gunicorn:
-	```bash
-	gunicorn -w 4 -b 0.0.0.0:8000 app:app
-	```
-- Update environment variables for production secrets and disable debug mode.
-- Consider migrating to PostgreSQL if concurrency or multi-user support becomes critical.
-- Docker assets (`Dockerfile`, `docker-compose.yml`) provide a containerized dev/devops starting point.
+
+* Use a production WSGI server such as gunicorn:
+
+```bash
+gunicorn -w 4 -b 0.0.0.0:8000 app:app
+```
+
+* Configure environment variables and disable debug mode.
+* Consider PostgreSQL for multi-user scenarios or higher concurrency.
+* Docker assets (`Dockerfile`, `docker-compose.yml`) are provided for development.
+
+---
 
 ## Evaluation & Reflection
-- Lessons learned and future enhancements are summarized in `docs/evaluation_reflection.md`.
-- Known next steps: integrate a real image classification model, expand accessibility testing, gather additional user feedback sessions, and tighten mypy settings.
+
+* Lessons learned and future improvements: `docs/evaluation_reflection.md`
+* Next steps:
+
+  * Real food classification model
+  * More accessibility testing
+  * Additional user feedback sessions
+  * Stricter mypy type enforcement
+
+---
 
 ## Documentation Map
-- `docs/rubric/requirements_mapping.md` — rubric criterion crosswalk.
-- `docs/TESTING.md` and `docs/testing_results.csv` — manual + automated testing evidence.
-- `docs/presentation_outline.md` — slide/video script for the final presentation.
-- `todo.md` — historical project tracking (all tasks complete).
+
+* `docs/rubric/requirements_mapping.md` — rubric crosswalk
+* `docs/TESTING.md`, `docs/testing_results.csv` — test evidence
+* `docs/presentation_outline.md` — slides/video script
+* `todo.md` — project task history
+
+---
 
 ## Contributing
-- Fork the repository, create a feature branch, and submit pull requests.
-- Follow the formatting and linting commands above before opening a PR.
-- See `CONTRIBUTING.md` for detailed guidelines.
+
+See `CONTRIBUTING.md` for full guidelines on branching, testing, and submitting pull requests.
+
 
 ## License
-This project currently ships with the `LICENSE` file in the repository root. Update the text if your course or organization requires a different license.
 
-## Contact
-Questions or feedback? Open an issue or reach out to the project maintainer listed in your course portal.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+
+
