@@ -1,0 +1,35 @@
+# Example environment variables for local development.
+#
+# Copy this file to `.env` (or create your own) and DO NOT commit your
+# `.env` into version control. The repository `.gitignore` already ignores
+# `.env` files, but double-check before committing.
+#
+# Usage:
+#  - Local development: copy to .env and adjust values as needed.
+#  - Docker: set FOODID_DB=/data/foodid.db (the Dockerfile exposes /data as a volume).
+#  - Production: disable debug and set absolute paths / secure credentials.
+
+# API base URL used by the Gradio UI. For local development this points to
+# the Flask server started by `python app.py`.
+FOODID_API=http://127.0.0.1:5000
+
+# SQLite filename for local development. Use a relative path (project-local)
+# or an absolute path. The Docker image sets this to `/data/foodid.db`.
+# Example: FOODID_DB=./data/foodid.db
+FOODID_DB=foodid.db
+
+# Flask configuration: for development set FLASK_ENV to 'development' and
+# enable FLASK_DEBUG=1. In production set FLASK_DEBUG=0 and FLASK_ENV=production
+FLASK_ENV=development
+FLASK_DEBUG=1
+
+# Optional: seed sample data on first run (set to 1 to seed)
+SEED_DB=1
+
+# Optional: logging level (DEBUG, INFO, WARNING, ERROR)
+LOG_LEVEL=INFO
+
+# UI host/port — used by `ui.py` when launching the Gradio frontend locally.
+# These are not required for the Flask API but convenient when developing the UI.
+FOODID_UI_HOST=127.0.0.1
+FOODID_UI_PORT=7860

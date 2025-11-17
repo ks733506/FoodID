@@ -1,0 +1,35 @@
+# Requirements for FoodID
+# ---------------------
+# This file contains pinned dependencies for running the application and
+# for local development/testing. Pinning versions helps ensure reproducible
+# installs across machines and CI.
+#
+# Install the dependencies into a virtual environment:
+#   python -m venv .venv
+#   .\.venv\Scripts\Activate.ps1   # (PowerShell)
+#   source .venv/bin/activate        # (macOS / Linux)
+#   pip install -r requirements.txt
+#
+# Runtime dependencies (required to run the app)
+flask==3.0.3           # WSGI web framework used for the API
+requests==2.32.3       # HTTP client used by the UI
+gradio==4.44.0         # Lightweight web UI used for demos
+
+# Development / test dependencies
+pytest==8.3.3          # test runner
+
+# Optional (comment/uncomment as needed):
+# - Add a WSGI server for production (uncomment to install):
+# gunicorn==21.2.0      # recommended for production deployments
+#
+# - If you want to load `.env` files automatically in development, install:
+# python-dotenv==1.0.0
+#
+# Platform-conditional dependencies
+# Conditional backport for audio on Python >= 3.13 (keep if targeting that version)
+audioop-lts; python_version>='3.13'
+
+# Notes
+# - Consider creating a separate `requirements-dev.txt` for tooling (formatters,
+#   linters, test extras) if the project grows. For small projects this single
+#   file is fine.

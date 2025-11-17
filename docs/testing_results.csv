@@ -1,0 +1,7 @@
+Test Case,Description,Steps,Expected Result,Actual Result,Status,Last Run
+"test_health","API health endpoint responds successfully","GET /health","HTTP 200 with {""status"":""ok""}","HTTP 200, JSON {""status"":""ok""}",PASS,2025-11-10
+"test_db_file_created","Database initialization creates SQLite file","Call init_db() with temporary path","SQLite file exists","File created at temporary path",PASS,2025-11-10
+"test_create_and_list_items","Create item and verify listing","POST /items -> GET /items","Created item returned in list","Item present in GET /items response",PASS,2025-11-10
+"test_get_item_by_id","Retrieve item by specific ID","Create item -> GET /items/<id>","Response matches created record","GET returns same id/name/quantity",PASS,2025-11-10
+"test_update_item","Update item name and quantity","Create item -> PUT /items/<id>","Response reflects updated fields","Name and quantity updated in response",PASS,2025-11-10
+"test_delete_item","Delete item and confirm removal","Create item -> DELETE /items/<id> -> GET /items/<id>","Delete returns success; subsequent GET returns 404","Delete returns success message; follow-up GET 404",PASS,2025-11-10

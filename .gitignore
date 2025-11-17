@@ -1,0 +1,58 @@
+# ==================================================
+# Basic ignores for Python projects
+# ==================================================
+# Environment files (credentials, local overrides)
+.env
+.env.*
+
+# Bytecode cache and Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+
+# SQLite DB files (local development)
+*.sqlite3
+*.db
+
+# Virtual environments
+.venv/
+venv/
+
+# pip / build artifacts
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# ==================================================
+# Editor/IDE
+# ==================================================
+.vscode/
+.idea/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Testing and tooling
+.pytest_cache/
+.coverage
+coverage.xml
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# Cache and temp
+.cache/
+tmp/
+__pycache__/
+
+# Optional: ignore Docker local volumes and env files
+docker-compose.override.yml
+
+# End of ignores
