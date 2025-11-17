@@ -58,11 +58,9 @@ Do not commit .env to version control.
 
 Key settings:
 
-FOODID_DB — optional path to SQLite DB (default: foodid.db)
-
-FLASK_DEBUG=1 — enable debug mode
-
-SEED_DB=1 — load sample items after migrations
+- `FOODID_DB` — optional path to the SQLite DB (default: `foodid.db`).
+- `FLASK_DEBUG=1` — enable debug mode.
+- `SEED_DB=1` — load sample items after migrations.
 
 
 ### Windows PowerShell
@@ -193,6 +191,3 @@ See `CONTRIBUTING.md` for full guidelines on branching, testing, and submitting 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-
-
