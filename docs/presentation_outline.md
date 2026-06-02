@@ -29,7 +29,7 @@ Use this outline to structure the final class presentation or screen-recorded de
 ## 5. Testing Evidence (60s)
 - Display the `docs/testing_results.csv` table or `docs/TESTING.md` summary.
 - Mention the pytest suite (`test_api.py`) and CI workflow (`.github/workflows/ci.yml`).
-- Highlight recent run output (all tests passing on 2025-11-10).
+- Highlight recent run output (all tests passing on 2025-11-17).
 
 ## 6. Reflection & Next Steps (60s)
 - Summarize major lessons learned (e.g., handling legacy DB rows, ensuring migrations).
