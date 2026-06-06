@@ -7,7 +7,7 @@ Use this outline to structure the final class presentation or screen-recorded de
 - State the primary goal for the session (show working prototype + evidence of quality).
 
 ## 2. Design Rationale (60s)
-- Highlight the key user needs that informed the interface (quick identification, inventory tracking).
+- Highlight the key user needs that informed the interface (quick inventory tracking).
 - Call out validation/error messaging choices in `ui.py` and how they support usability.
 - Mention any accessibility considerations (clear labels, error feedback, keyboard-friendly Gradio defaults).
 
@@ -19,7 +19,7 @@ Use this outline to structure the final class presentation or screen-recorded de
 ## 4. Live Demo (3–4 min)
 1. Launch API (`python app.py`) and UI (`python ui.py`) — show both running.
 2. Perform the CRUD walkthrough using the UI and/or API client:
-   - Create a food item with image/quantity.
+   - Create a food item with name and quantity.
    - Show list view updating; retrieve item details.
    - Update an item and highlight validation on invalid quantities.
    - Delete the item and confirm removal.
