@@ -1,6 +1,6 @@
 # FoodID
 
-FoodID is a prototype service that identifies foods from images and tracks a simple inventory. It pairs a lightweight Flask API with a Gradio UI so classmates, instructors, and testers can explore the core CRUD flow and identification workflow.
+FoodID is a prototype service that tracks a simple inventory. It pairs a lightweight Flask API with a Gradio UI so classmates, instructors, and testers can explore it.
 
 ## Quickstart
 
