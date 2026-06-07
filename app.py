@@ -24,13 +24,13 @@ logger = logging.getLogger("foodid.app")
 
 def create_app() -> Flask:
     """Create and configure the Flask application.
-    
+
     This factory function:
     - Initializes the SQLite database schema
     - Runs database migrations for legacy schema compatibility
     - Seeds sample data if SEED_DB=1 is set
     - Registers API route handlers for CRUD operations
-    
+
     Returns:
         Configured Flask application instance ready for use
     """
@@ -48,11 +48,11 @@ def create_app() -> Flask:
 
     def error_response(message: str, status: int = 400):
         """Return a consistent JSON error response.
-        
+
         Args:
             message: Human-readable error description
             status: HTTP status code (default 400)
-            
+
         Returns:
             Tuple of (JSON response dict, status code)
         """
@@ -60,13 +60,13 @@ def create_app() -> Flask:
 
     def row_to_dict(row: Any) -> Dict[str, Any]:
         """Convert a DB row to a JSON-serializable dict.
-        
+
         Extracts relevant columns from sqlite3.Row object and returns
         a clean dictionary suitable for JSON serialization in API responses.
-        
+
         Args:
             row: sqlite3.Row object from database query
-            
+
         Returns:
             Dictionary with keys: id, name, quantity, created_at, updated_at
         """
@@ -84,9 +84,9 @@ def create_app() -> Flask:
     @app.get("/")
     def home():
         """Return API welcome message.
-        
+
         Provides basic info about the API endpoint structure.
-        
+
         Returns:
             JSON message with HTTP 200
         """
@@ -102,10 +102,10 @@ def create_app() -> Flask:
     @app.get("/health")
     def health():
         """Check database connectivity and service health.
-        
+
         Performs a simple SELECT 1 query to verify the database
         connection is working.
-        
+
         Returns:
             JSON status object with HTTP 200 if healthy, 500 otherwise
         """
@@ -119,15 +119,15 @@ def create_app() -> Flask:
 
     def _parse_positive_int(value: Any) -> int:
         """Parse and validate a positive integer.
-        
+
         Ensures the value can be converted to int and is non-negative.
-        
+
         Args:
             value: Input value to parse (can be string, int, etc.)
-            
+
         Returns:
             Validated positive integer
-            
+
         Raises:
             ValueError: If value is negative or cannot be parsed as int
             TypeError: If value is of incompatible type
@@ -140,13 +140,13 @@ def create_app() -> Flask:
     @app.post("/items")
     def create_item():
         """Create a new inventory item.
-        
+
         Accepts JSON payload with:
         - name (string, required): Item name
         - quantity (int, optional): Item quantity (default 0)
-        
+
         Validates inputs and returns the created item with auto-generated ID.
-        
+
         Returns:
             JSON item object with HTTP 201 on success
             JSON error with HTTP 400/500 on failure
@@ -184,9 +184,9 @@ def create_app() -> Flask:
     @app.get("/items")
     def list_items():
         """List all inventory items.
-        
+
         Retrieves all items from the database ordered by ID.
-        
+
         Returns:
             JSON array of item objects with HTTP 200
             JSON error with HTTP 500 on failure
@@ -202,10 +202,10 @@ def create_app() -> Flask:
     @app.get("/items/<int:item_id>")
     def get_item(item_id: int):
         """Retrieve a single inventory item by ID.
-        
+
         Args:
             item_id: Numeric item ID from URL path
-            
+
         Returns:
             JSON item object with HTTP 200 if found
             JSON error with HTTP 404 if not found
@@ -226,17 +226,17 @@ def create_app() -> Flask:
     @app.put("/items/<int:item_id>")
     def update_item(item_id: int):
         """Update an inventory item by ID.
-        
+
         Accepts JSON payload with any combination of:
         - name (string, optional): New item name
         - quantity (int, optional): New item quantity
-        
+
         At least one field must be provided to update.
         Non-provided fields retain their current values.
-        
+
         Args:
             item_id: Numeric item ID from URL path
-            
+
         Returns:
             JSON updated item object with HTTP 200 on success
             JSON error with HTTP 400/404/500 on failure
@@ -288,12 +288,12 @@ def create_app() -> Flask:
     @app.delete("/items/<int:item_id>")
     def delete_item(item_id: int):
         """Delete an inventory item by ID.
-        
+
         Permanently removes the item from the database.
-        
+
         Args:
             item_id: Numeric item ID from URL path
-            
+
         Returns:
             JSON confirmation with HTTP 200 on success
             JSON error with HTTP 404 if not found
@@ -321,10 +321,10 @@ def create_app() -> Flask:
     @app.post("/identify")
     def identify():
         """Stub endpoint for future image classification.
-        
+
         Currently not implemented. This endpoint will be used to
         identify food items from images in a future release.
-        
+
         Returns:
             JSON error with HTTP 501 (Not Implemented)
         """

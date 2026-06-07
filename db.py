@@ -25,13 +25,13 @@ _DEFAULT_DB_NAME = "foodid.db"
 
 def _resolve_db_path(path: str) -> str:
     """Resolve database path to an absolute path and ensure parent directory exists.
-    
+
     Args:
         path: Relative or absolute path to database file
-        
+
     Returns:
         Absolute path to database file as a string
-        
+
     Raises:
         Exception: If unable to create parent directory
     """
@@ -53,7 +53,7 @@ def _resolve_db_path(path: str) -> str:
 
 def _get_db_path() -> str:
     """Get the database path from environment or use default.
-    
+
     Returns:
         Absolute path to database file
     """
@@ -63,18 +63,18 @@ def _get_db_path() -> str:
 
 def get_conn(check_same_thread: bool = False) -> sqlite3.Connection:
     """Establish and return a SQLite database connection.
-    
+
     Configures the connection to:
     - Parse SQL declaration types and column names
     - Return rows as sqlite3.Row objects (dict-like access)
     - Allow cross-thread usage when check_same_thread=False
-    
+
     Args:
         check_same_thread: If False, allows connection use across threads
-        
+
     Returns:
         Configured sqlite3.Connection object
-        
+
     Raises:
         sqlite3.Error: If unable to connect to database
     """
@@ -95,13 +95,13 @@ def get_conn(check_same_thread: bool = False) -> sqlite3.Connection:
 
 def init_db(schema_path: Optional[str] = None) -> None:
     """Initialize database schema from SQL file.
-    
+
     Creates all tables and indexes defined in schema.sql.
-    
+
     Args:
         schema_path: Path to schema.sql file. Defaults to schema.sql
                      in same directory as this module.
-                     
+
     Raises:
         FileNotFoundError: If schema file does not exist
         sqlite3.Error: If unable to execute schema
@@ -122,11 +122,11 @@ def init_db(schema_path: Optional[str] = None) -> None:
 
 def migrate_db() -> None:
     """Migrate legacy database schema to current version.
-    
+
     - Adds timestamp columns (created_at, updated_at) if missing
     - Creates index on items.name for query performance
     - Sets up trigger to auto-update updated_at on row changes
-    
+
     Raises:
         sqlite3.Error: If migration fails
     """

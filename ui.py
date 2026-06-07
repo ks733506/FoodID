@@ -31,13 +31,13 @@ _session = requests.Session()
 
 def _handle_response(resp: requests.Response) -> Tuple[int, Any]:
     """Normalize API response into (status_code, JSON).
-    
+
     Attempts to parse response as JSON; if parsing fails,
     creates an error response object with the raw text.
-    
+
     Args:
         resp: requests.Response object from API call
-        
+
     Returns:
         Tuple of (HTTP status code, JSON data dict)
     """
@@ -55,12 +55,12 @@ def _handle_response(resp: requests.Response) -> Tuple[int, Any]:
 
 def _build_url(path: str) -> str:
     """Build full API URL from base and path.
-    
+
     Handles leading/trailing slashes to avoid double slashes.
-    
+
     Args:
         path: API endpoint path (e.g., "/items", "items/5")
-        
+
     Returns:
         Full URL ready for requests (e.g., "http://localhost:5000/items")
     """
@@ -69,14 +69,14 @@ def _build_url(path: str) -> str:
 
 def create(name: str, qty: Any) -> Tuple[int, Dict[str, Any]]:
     """Create a new inventory item via API.
-    
+
     Validates name and quantity inputs before sending POST request
     to /items endpoint.
-    
+
     Args:
         name: Item name (required, cannot be empty)
         qty: Item quantity (converted to int, must be >= 0)
-        
+
     Returns:
         Tuple of (HTTP status code, response JSON dict)
         - HTTP 201 on success with created item
@@ -111,10 +111,10 @@ def create(name: str, qty: Any) -> Tuple[int, Dict[str, Any]]:
 
 def read_all() -> List[List[Any]]:
     """Fetch all inventory items from API.
-    
+
     Returns items in a format suitable for Gradio Dataframe widget:
     list of [id, name, quantity] lists.
-    
+
     Returns:
         List of [id, name, quantity] lists, empty list on error
     """
@@ -137,10 +137,10 @@ def read_all() -> List[List[Any]]:
 
 def read_one(item_id: Any) -> Tuple[int, Any]:
     """Fetch a single inventory item by ID via API.
-    
+
     Args:
         item_id: Numeric item ID (required)
-        
+
     Returns:
         Tuple of (HTTP status code, response JSON dict)
         - HTTP 200 on success with item data
@@ -169,14 +169,14 @@ def read_one(item_id: Any) -> Tuple[int, Any]:
 
 def update(item_id: Any, name: str, qty: Any) -> Tuple[int, Any]:
     """Update an inventory item by ID via API.
-    
+
     At least one of name or qty must be provided.
-    
+
     Args:
         item_id: Numeric item ID (required)
         name: New item name (optional, if provided must not be empty)
         qty: New quantity (optional, must be >= 0 if provided)
-        
+
     Returns:
         Tuple of (HTTP status code, response JSON dict)
         - HTTP 200 on success with updated item
@@ -225,13 +225,13 @@ def update(item_id: Any, name: str, qty: Any) -> Tuple[int, Any]:
 
 def delete(item_id: Any, confirm: bool) -> Tuple[int, Any]:
     """Delete an inventory item by ID via API.
-    
+
     Requires explicit confirmation to prevent accidental deletion.
-    
+
     Args:
         item_id: Numeric item ID (required)
         confirm: Must be True to actually delete the item
-        
+
     Returns:
         Tuple of (HTTP status code, response JSON dict)
         - HTTP 200 on success with deletion confirmation
