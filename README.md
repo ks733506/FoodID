@@ -1,6 +1,6 @@
 # FoodID
 
-FoodID is a prototype service that identifies foods from images and tracks a simple inventory. It pairs a lightweight Flask API with a Gradio UI so classmates, instructors, and testers can explore the experience quickly.
+FoodID is a prototype service that tracks a simple inventory. It pairs a lightweight Flask API with a Gradio UI so classmates, instructors, and testers can explore it.
 
 ## Quickstart
 
@@ -30,7 +30,7 @@ Open the Gradio link printed by `ui.py`, or access the API directly at:
 [Gradio UI] --HTTP--> [Flask API] --SQL--> [SQLite Database]
      |                                 ^
      +---- local validation + feedback |
-                                      schema + migration
+                                       schema + migration
 ```
 
 * `create_app()` wires endpoints, initializes/migrates DB, and seeds data when `SEED_DB=1`.
@@ -159,18 +159,6 @@ gunicorn -w 4 -b 0.0.0.0:8000 app:app
 * Configure environment variables and disable debug mode.
 * Consider PostgreSQL for multi-user scenarios or higher concurrency.
 * Docker assets (`Dockerfile`, `docker-compose.yml`) are provided for development.
-
----
-
-## Evaluation & Reflection
-
-* Lessons learned and future improvements: `docs/evaluation_reflection.md`
-* Next steps:
-
-  * Real food classification model
-  * More accessibility testing
-  * Additional user feedback sessions
-  * Stricter mypy type enforcement
 
 ---
 
