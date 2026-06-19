@@ -263,7 +263,7 @@ def delete(item_id: Any, confirm: bool) -> Tuple[int, Any]:
 
 # Build the Gradio UI with tabs for each CRUD operation
 with gr.Blocks(title="FoodID") as demo:
-    gr.Markdown("# 🥫 FoodID — Inventory Manager")
+    gr.Markdown("#  FoodID — Inventory Manager")
 
     # CREATE tab: Add new inventory items
     with gr.Tab("Create"):
