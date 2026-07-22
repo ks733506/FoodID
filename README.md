@@ -166,7 +166,6 @@ gunicorn -w 4 -b 0.0.0.0:8000 app:app
 
 * `docs/rubric/requirements_mapping.md` — rubric crosswalk
 * `docs/TESTING.md`, `docs/testing_results.csv` — test evidence
-* `docs/presentation_outline.md` — slides/video script
 * `todo.md` — project task history
 
 ---
